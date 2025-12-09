@@ -12,8 +12,8 @@ class AppMenu extends \Hubleto\Framework\Extendible
      return [
        [
          'app' => $this->app,
-         'url' => 'http://ip-api.com/json/',
-         'title' => $this->app->translate('IPInfoTestttt'),
+         'url' => 'ipinfotest/favorites',
+         'title' => $this->app->translate('Favorites'),
          'icon' => '',
        ],
      ];

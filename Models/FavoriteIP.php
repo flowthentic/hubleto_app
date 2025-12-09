@@ -61,46 +61,48 @@ class FavoriteIP extends \Hubleto\Framework\Model
   public function describeColumns(): array
   {
     return array_merge(parent::describeColumns(), [
-      'varchar_example' => (new Varchar($this, $this->translate('Varchar')))->setDefaultVisible()
-        // ->setReadonly()
-        // ->setRequired()
+      'ip' => (new Varchar($this, $this->translate('IP Address')))->setDefaultVisible()
+        ->setRequired()
         ->setCssClass('text-2xl text-primary')
       ,
-      'text_example' => (new Text($this, $this->translate('Text')))->setDefaultVisible()
-        // ->setReadonly()
-        // ->setRequired()
+      'continent' => (new Varchar($this, $this->translate('Continent')))->setDefaultVisible()
         ->setCssClass('text-2xl text-primary')
       ,
-      'decimal_example' => (new Decimal($this, $this->translate('Number')))->setDefaultVisible()
-        // ->setReadonly()
-        // ->setRequired()
+      'country' => (new Varchar($this, $this->translate('Country')))->setDefaultVisible()
         ->setCssClass('text-2xl text-primary')
-        ->setDecimals(4)
-      // ,
-      // 'date_example' => (new Date($this, $this->translate('Date')))->setDefaultVisible()->setReadonly()->setRequired()
-      //   ->setDefaultValue(date("Y-m-d"))
-      // ,
-      // 'datetime_example' => (new DateTime($this, $this->translate('DateTime')))->setDefaultVisible()->setReadonly()->setRequired()
-      //   ->setDefaultValue(date("Y-m-d H:i:s"))
-      // ,
-      // 'integer_example' => (new Integer($this, $this->translate('Integer')))->setDefaultVisible()->setReadonly()->setRequired()
-      //   ->setEnumValues(self::INTEGER_ENUM_VALUES)
-      //   ->setEnumCssClasses([
-      //     self::ENUM_ONE => 'bg-blue-50',
-      //     self::ENUM_TWO => 'bg-yellow-50',
-      //     self::ENUM_THREE => 'bg-green-50',
-      //   ])
-      //   ->setDefaultValue(self::ENUM_ONE)
-      // ,
-      // 'color_example' => (new Color($this, $this->translate('Color')))->setDefaultVisible()->setReadonly()->setRequired(),
-      // 'image_example' => (new Image($this, $this->translate('Image')))->setDefaultVisible()->setReadonly()->setRequired(),
-      // 'file_example' => (new File($this, $this->translate('File')))->setDefaultVisible()->setReadonly()->setRequired(),
-      // 'id_owner' => (new Lookup($this, $this->translate('Owner'), User::class))->setReactComponent('InputUserSelect')->setDefaultVisible()->setReadonly()->setRequired()
-      //   ->setDefaultValue($this->getService(\Hubleto\Framework\AuthProvider::class)->getUserId())
-      // ,
-      // 'id_manager' => (new Lookup($this, $this->translate('Manager'), User::class))->setReactComponent('InputUserSelect')->setDefaultVisible()->setReadonly()->setRequired()
-      //   ->setDefaultValue($this->getService(\Hubleto\Framework\AuthProvider::class)->getUserId())
-      // ,
+      ,
+      'regionName' => (new Varchar($this, $this->translate('Region Name')))->setDefaultVisible()
+        ->setCssClass('text-2xl text-primary')
+      ,
+      'city' => (new Varchar($this, $this->translate('City')))->setDefaultVisible()
+        ->setCssClass('text-2xl text-primary')
+      ,
+      'zip' => (new Varchar($this, $this->translate('Postal Code')))->setDefaultVisible()
+        ->setCssClass('text-2xl text-primary')
+      ,
+      'lat' => (new Varchar($this, $this->translate('Latitude')))->setDefaultVisible()
+        ->setCssClass('text-2xl text-primary')
+      ,
+      'lon' => (new Varchar($this, $this->translate('Longitude')))->setDefaultVisible()
+        ->setCssClass('text-2xl text-primary')
+      ,
+      'timezone' => (new Varchar($this, $this->translate('Timezone')))->setDefaultVisible()
+        ->setCssClass('text-2xl text-primary')
+      ,
+      'currency' => (new Varchar($this, $this->translate('Currency')))->setDefaultVisible()
+        ->setCssClass('text-2xl text-primary')
+      ,
+      'isp' => (new Varchar($this, $this->translate('Internet Service Provider')))->setDefaultVisible()
+        ->setCssClass('text-2xl text-primary')
+      ,
+      'org' => (new Varchar($this, $this->translate('Organization')))->setDefaultVisible()
+        ->setCssClass('text-2xl text-primary')
+      ,
+      'as' => (new Varchar($this, $this->translate('AS')))->setDefaultVisible()
+        ->setCssClass('text-2xl text-primary')
+      ,
+      'reverse' => (new Varchar($this, $this->translate('Reverse DNS')))->setDefaultVisible()
+        ->setCssClass('text-2xl text-primary')
     ]);
   }
 
