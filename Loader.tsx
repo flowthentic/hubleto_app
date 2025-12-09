@@ -12,6 +12,8 @@
 
 //@hubleto-cli:imports
 import TableFavoriteIPs from './Components/TableFavoriteIPs';
+import FormFavoriteIP from './Components/FormFavoriteIP';
 
 //@hubleto-cli:register-components
-globalThis.main.registerReactComponent('IpInfoTestTableFavoriteIPs', TableFavoriteIPs);
+globalThis.main.registerReactComponent('IpInfoTestTableFavorites', TableFavoriteIPs);
+globalThis.main.registerReactComponent('IpInfoTestFormFavoriteIp', FormFavoriteIP);

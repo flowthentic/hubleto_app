@@ -24,7 +24,7 @@ class Loader extends \Hubleto\Framework\App
 
     // DO NOT DELETE FOLLOWING LINE, OR `php hubleto` WILL NOT GENERATE CODE HERE
     //@hubleto-cli:routes
-    $this->router()->get([ '/^ipinfotest\/favorite-i-ps(\/(?<recordId>\d+))?\/?$/' => Controllers\FavoriteIPs::class ]);
+    $this->router()->get([ '/^ipinfotest\/favorites(\/(?<recordId>\d+))?\/?$/' => Controllers\FavoriteIPs::class ]);
 
     // Add placeholder for custom settings.
     // This will be displayed in the Settings app, under the "All settings" card.

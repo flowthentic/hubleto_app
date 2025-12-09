@@ -3,9 +3,165 @@
 
 {# DO NOT DELETE FOLLOWING LINE, OR `php hubleto` WILL NOT GENERATE CODE HERE #}
 {# @hubleto-cli:buttons #}
-<a class='btn btn-large btn-square btn-transparent' href='ipinfotest/favorite-i-ps'>
-<span class='icon'><i class='fas fa-table'></i></span>
-<span class='text'>FavoriteIPs</span>
+
+<div class="grid md:grid-cols-2 gap-2 mt-4">
+  <div class="card">
+    <div class="card-header">
+      Favorite IP details
+    </div>
+    <div class="card-body">
+      <form id="favorite-ip-form" class="grid grid-cols-1 gap-3" onsubmit="return false;">
+        <input type="hidden" name="id" value="{{ viewParams.record.id|default('') }}" />
+        <div>
+          <label class="block text-sm mb-1" for="ip">IP Address</label>
+          <input class="input" id="ip" name="ip" type="text" value="{{ viewParams.record.ip|default('') }}" {% if viewParams.record.id|default(0) > 0 %}readonly{% endif %} required />
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-3">
+          <div>
+            <label class="block text-sm mb-1" for="continent">Continent</label>
+            <input class="input" id="continent" name="continent" type="text" value="{{ viewParams.record.continent|default('') }}" />
+          </div>
+          <div>
+            <label class="block text-sm mb-1" for="country">Country</label>
+            <input class="input" id="country" name="country" type="text" value="{{ viewParams.record.country|default('') }}" />
+          </div>
+          <div>
+            <label class="block text-sm mb-1" for="regionName">Region Name</label>
+            <input class="input" id="regionName" name="regionName" type="text" value="{{ viewParams.record.regionName|default('') }}" />
+          </div>
+          <div>
+            <label class="block text-sm mb-1" for="city">City</label>
+            <input class="input" id="city" name="city" type="text" value="{{ viewParams.record.city|default('') }}" />
+          </div>
+          <div>
+            <label class="block text-sm mb-1" for="zip">Postal Code</label>
+            <input class="input" id="zip" name="zip" type="text" value="{{ viewParams.record.zip|default('') }}" />
+          </div>
+          <div>
+            <label class="block text-sm mb-1" for="lat">Latitude</label>
+            <input class="input" id="lat" name="lat" type="text" value="{{ viewParams.record.lat|default('') }}" />
+          </div>
+          <div>
+            <label class="block text-sm mb-1" for="lon">Longitude</label>
+            <input class="input" id="lon" name="lon" type="text" value="{{ viewParams.record.lon|default('') }}" />
+          </div>
+          <div>
+            <label class="block text-sm mb-1" for="timezone">Timezone</label>
+            <input class="input" id="timezone" name="timezone" type="text" value="{{ viewParams.record.timezone|default('') }}" />
+          </div>
+          <div>
+            <label class="block text-sm mb-1" for="currency">Currency</label>
+            <input class="input" id="currency" name="currency" type="text" value="{{ viewParams.record.currency|default('') }}" />
+          </div>
+          <div>
+            <label class="block text-sm mb-1" for="isp">ISP</label>
+            <input class="input" id="isp" name="isp" type="text" value="{{ viewParams.record.isp|default('') }}" />
+          </div>
+          <div>
+            <label class="block text-sm mb-1" for="org">Organization</label>
+            <input class="input" id="org" name="org" type="text" value="{{ viewParams.record.org|default('') }}" />
+          </div>
+          <div>
+            <label class="block text-sm mb-1" for="as">AS</label>
+            <input class="input" id="as" name="as" type="text" value="{{ viewParams.record.as|default('') }}" />
+          </div>
+          <div>
+            <label class="block text-sm mb-1" for="reverse">Reverse DNS</label>
+            <input class="input" id="reverse" name="reverse" type="text" value="{{ viewParams.record.reverse|default('') }}" />
+          </div>
+        </div>
+
+        <div class="mt-4 flex gap-2">
+          <button type="button" id="btn-fetch-ipinfo" class="btn btn-secondary">
+            <span class="icon"><i class="fas fa-download"></i></span>
+            <span class="text">Fetch IP info</span>
+          </button>
+          <button type="button" id="btn-save-ipinfo" class="btn btn-primary">
+            <span class="icon"><i class="fas fa-save"></i></span>
+            <span class="text">Save to database</span>
+          </button>
+        </div>
+      </form>
+
+      <script>
+        (function(){
+          function qs(id){ return document.getElementById(id); }
+          function val(id){ return (qs(id) ? qs(id).value : ''); }
+          function setVal(id,v){ if(qs(id)) qs(id).value = v ?? ''; }
+
+          async function fetchIpInfo(){
+            var ip = val('ip');
+            if(!ip){ alert('Please provide an IP address first.'); return; }
+            try{
+              var res = await fetch('https://api.techniknews.net/ipgeo/' + encodeURIComponent(ip));
+              var data = await res.json();
+              if(data.status !== 'success'){
+                alert('Failed to fetch IP info: ' + (data.message || 'Unknown error'));
+                return;
+              }
+              var fields = ['continent','country','regionName','city','zip','lat','lon','timezone','currency','isp','org','as','reverse'];
+              for (var i=0;i<fields.length;i++){
+                var k = fields[i]; if (typeof data[k] !== 'undefined') setVal(k, String(data[k]));
+              }
+            }catch(e){
+              console.error(e); alert('Error while fetching IP info.');
+            }
+          }
+
+          async function saveIpInfo(){
+            // Build record from inputs
+            var record = {
+              id: Number(val('id')||0),
+              ip: val('ip'),
+              continent: val('continent'),
+              country: val('country'),
+              regionName: val('regionName'),
+              city: val('city'),
+              zip: val('zip'),
+              lat: val('lat'),
+              lon: val('lon'),
+              timezone: val('timezone'),
+              currency: val('currency'),
+              isp: val('isp'),
+              org: val('org'),
+              as: val('as'),
+              reverse: val('reverse')
+            };
+
+            if(!record.ip){ alert('IP is required.'); return; }
+
+            try{
+              var res = await fetch('ipinfotest/favorites?__action=save', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                  record: record,
+                  saveRelations: {}
+                })
+              });
+              var json = await res.json();
+              if(json.status !== 'success'){
+                alert('Failed to save record.');
+                return;
+              }
+              var id = json.savedRecord && json.savedRecord.id ? json.savedRecord.id : 0;
+              window.location.href = 'ipinfotest' + (id>0 ? ('?recordId=' + id) : '');
+            }catch(e){
+              console.error(e); alert('Error while saving record.');
+            }
+          }
+
+          var btnFetch = document.getElementById('btn-fetch-ipinfo');
+          var btnSave = document.getElementById('btn-save-ipinfo');
+          if (btnFetch) btnFetch.addEventListener('click', fetchIpInfo);
+          if (btnSave) btnSave.addEventListener('click', saveIpInfo);
+        })();
+      </script>
+    </div>
+  </div>
+</div>
+
 <a class='btn btn-large btn-square btn-transparent' href='ipinfotest/favorites'>
     <span class='icon'><i class='fas fa-table'></i></span>
     <span class='text'>Favorites</span>
